@@ -50,6 +50,19 @@
       z-index: 0;
       display: none;
     }
+    .video-visible {
+      z-index: 1;
+    }
+    .vibrate {
+      animation: vibrate 0.1s infinite;
+    }
+    @keyframes vibrate {
+      0% { transform: translate(0); }
+      25% { transform: translate(1px, -1px); }
+      50% { transform: translate(-1px, 1px); }
+      75% { transform: translate(1px, 1px); }
+      100% { transform: translate(-1px, -1px); }
+    }
     .loading-screen {
       position: fixed;
       top: 0;
@@ -65,8 +78,18 @@
       z-index: 2;
       display: none;
     }
-    .video-visible {
-      z-index: 1;
+    .final-message {
+      position: fixed;
+      bottom: 10vh;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 5vw;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2vw 4vw;
+      border-radius: 1vw;
+      display: none;
+      z-index: 3;
     }
     @media (min-width: 768px) {
       h1 {
@@ -79,6 +102,9 @@
       .loading-screen {
         font-size: 2em;
       }
+      .final-message {
+        font-size: 2em;
+      }
     }
   </style>
 </head>
@@ -89,6 +115,7 @@
   </div>
 
   <div id="loadingScreen" class="loading-screen">Loading...</div>
+  <div id="finalMessage" class="final-message">buon compleanno cuccumello da Cucuzza, Zapela e figlio migliore</div>
 
   <video id="surpriseVideo" autoplay muted playsinline>
     <source src="abracadabra.mp4" type="video/mp4" />
@@ -99,15 +126,15 @@
     function showSurprise() {
       const video = document.getElementById('surpriseVideo');
       const loadingScreen = document.getElementById('loadingScreen');
+      const finalMessage = document.getElementById('finalMessage');
       const mainContent = document.getElementById('mainContent');
-
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
       mainContent.style.display = 'none';
       video.currentTime = 0;
       video.muted = false;
       video.style.display = 'block';
-      video.classList.add('video-visible');
+      video.classList.add('video-visible', 'vibrate');
 
       video.play().catch(e => console.log('Playback failed:', e));
 
@@ -117,6 +144,11 @@
           loadingScreen.style.display = 'none';
         }, 5000);
       }
+
+      setTimeout(() => {
+        finalMessage.style.display = 'block';
+        video.classList.remove('vibrate');
+      }, 6000);
     }
   </script>
 </body>
