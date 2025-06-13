@@ -9,25 +9,46 @@
       font-family: sans-serif;
       text-align: center;
       background-color: #fdf0d5;
-      padding: 50px;
+      padding: 5vw;
+      margin: 0;
     }
     h1 {
-      font-size: 3em;
+      font-size: 8vw;
       color: #d62828;
+      margin: 0 0 5vw;
     }
     button {
-      font-size: 1.2em;
-      padding: 10px 20px;
+      font-size: 5vw;
+      padding: 3vw 6vw;
       background-color: #f77f00;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      margin-top: 20px;
+      margin-top: 5vw;
     }
     video {
-      margin-top: 30px;
+      margin-top: 6vw;
       max-width: 100%;
+      height: auto;
       display: none;
+      transition: transform 0.3s ease-in-out;
+    }
+    .pulse {
+      animation: pulseAnim 1s infinite;
+    }
+    @keyframes pulseAnim {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 3em;
+      }
+      button {
+        font-size: 1.2em;
+        padding: 10px 20px;
+      }
     }
   </style>
 </head>
@@ -43,7 +64,11 @@
     function showSurprise() {
       const video = document.getElementById('surpriseVideo');
       video.style.display = 'block';
-      video.play();
+      video.classList.add('pulse');
+      video.currentTime = 0; // Start from the beginning
+      video.play().catch(error => {
+        console.log("Autoplay error:", error);
+      });
     }
   </script>
 </body>
