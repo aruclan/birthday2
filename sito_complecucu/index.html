@@ -101,9 +101,9 @@
       const loadingScreen = document.getElementById('loadingScreen');
       const mainContent = document.getElementById('mainContent');
 
-      mainContent.style.display = 'none';
-      loadingScreen.style.display = 'flex';
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
+      mainContent.style.display = 'none';
       video.currentTime = 0;
       video.muted = false;
       video.style.display = 'block';
@@ -111,9 +111,12 @@
 
       video.play().catch(e => console.log('Playback failed:', e));
 
-      setTimeout(() => {
-        loadingScreen.style.display = 'none';
-      }, 5000);
+      if (!isMobile) {
+        loadingScreen.style.display = 'flex';
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+        }, 5000);
+      }
     }
   </script>
 </body>
