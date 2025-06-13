@@ -14,9 +14,6 @@
       background-color: #000;
       overflow: hidden;
     }
-    body.showing {
-      overflow: auto;
-    }
     #mainContent {
       display: flex;
       flex-direction: column;
@@ -26,6 +23,8 @@
       text-align: center;
       background-color: #fdf0d5;
       padding: 5vw;
+      position: relative;
+      z-index: 1;
     }
     h1 {
       font-size: 8vw;
@@ -48,7 +47,7 @@
       width: 100vw;
       height: 100vh;
       object-fit: cover;
-      z-index: -1;
+      z-index: 0;
       display: none;
     }
     .loading-screen {
@@ -63,8 +62,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 10;
+      z-index: 2;
       display: none;
+    }
+    .video-visible {
+      z-index: 1;
     }
     @media (min-width: 768px) {
       h1 {
@@ -105,11 +107,12 @@
       video.currentTime = 0;
       video.muted = false;
       video.style.display = 'block';
+      video.classList.add('video-visible');
+
       video.play().catch(e => console.log('Playback failed:', e));
 
       setTimeout(() => {
         loadingScreen.style.display = 'none';
-        document.body.classList.add('showing');
       }, 5000);
     }
   </script>
