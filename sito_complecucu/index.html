@@ -5,12 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BUON COMPLECUCU</title>
   <style>
-    body {
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
       font-family: sans-serif;
+      background-color: #000;
+      overflow: hidden;
+    }
+    body.showing {
+      overflow: auto;
+    }
+    #mainContent {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       text-align: center;
       background-color: #fdf0d5;
       padding: 5vw;
-      margin: 0;
     }
     h1 {
       font-size: 8vw;
@@ -27,19 +42,29 @@
       margin-top: 5vw;
     }
     video {
-      margin-top: 6vw;
-      max-width: 100%;
-      height: auto;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
       display: none;
-      transition: transform 0.3s ease-in-out;
     }
-    .pulse {
-      animation: pulseAnim 1s infinite;
-    }
-    @keyframes pulseAnim {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-      100% { transform: scale(1); }
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      color: white;
+      font-size: 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      display: none;
     }
     @media (min-width: 768px) {
       h1 {
@@ -49,13 +74,21 @@
         font-size: 1.2em;
         padding: 10px 20px;
       }
+      .loading-screen {
+        font-size: 2em;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>BUON COMPLECUCU</h1>
-  <button onclick="showSurprise()">premi qui per la sopresa</button>
-  <video id="surpriseVideo" controls>
+  <div id="mainContent">
+    <h1>BUON COMPLECUCU</h1>
+    <button onclick="showSurprise()">premi qui per la sopresa</button>
+  </div>
+
+  <div id="loadingScreen" class="loading-screen">Loading...</div>
+
+  <video id="surpriseVideo" autoplay muted playsinline>
     <source src="abracadabra.mp4" type="video/mp4" />
     Il tuo browser non supporta il video.
   </video>
@@ -63,12 +96,21 @@
   <script>
     function showSurprise() {
       const video = document.getElementById('surpriseVideo');
+      const loadingScreen = document.getElementById('loadingScreen');
+      const mainContent = document.getElementById('mainContent');
+
+      mainContent.style.display = 'none';
+      loadingScreen.style.display = 'flex';
+
+      video.currentTime = 0;
+      video.muted = false;
       video.style.display = 'block';
-      video.classList.add('pulse');
-      video.currentTime = 0; // Start from the beginning
-      video.play().catch(error => {
-        console.log("Autoplay error:", error);
-      });
+      video.play().catch(e => console.log('Playback failed:', e));
+
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+        document.body.classList.add('showing');
+      }, 5000);
     }
   </script>
 </body>
