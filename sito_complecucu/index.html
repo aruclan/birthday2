@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BUON COMPLECUCU</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background-color: #fdf0d5;
+      padding: 50px;
+    }
+    h1 {
+      font-size: 3em;
+      color: #d62828;
+    }
+    button {
+      font-size: 1.2em;
+      padding: 10px 20px;
+      background-color: #f77f00;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    video {
+      margin-top: 30px;
+      max-width: 100%;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>BUON COMPLECUCU</h1>
+  <button onclick="showSurprise()">premi qui per la sopresa</button>
+  <video id="surpriseVideo" controls>
+    <source src="abracadabra.mp4" type="video/mp4" />
+    Il tuo browser non supporta il video.
+  </video>
+
+  <script>
+    function showSurprise() {
+      const video = document.getElementById('surpriseVideo');
+      video.style.display = 'block';
+      video.play();
+    }
+  </script>
+</body>
+</html>
